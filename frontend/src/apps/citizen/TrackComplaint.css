@@ -1,0 +1,179 @@
+/* ─── Track Complaint ────────────────────────────────────────────── */
+.track-page { max-width: 1000px; }
+
+/* Header Card (GlassCard handles background/border, but keep padding) */
+.track-header-card {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.track-header-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+/* Cluster Alert */
+.cluster-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* Columns */
+.track-columns {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Timeline */
+.timeline { display: flex; flex-direction: column; }
+
+.timeline-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.timeline-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.timeline-icon {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-pulse {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--teal-primary);
+  background: rgba(0, 201, 167, 0.15);
+  position: relative;
+  box-shadow: 0 0 12px rgba(0, 201, 167, 0.3) inset;
+}
+
+.timeline-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 201, 167, 0.3);
+  animation: glow 2s ease-in-out infinite;
+}
+
+.timeline-line {
+  width: 2px;
+  flex: 1;
+  min-height: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}
+
+.timeline-line.done { background: var(--teal-primary); box-shadow: 0 0 8px rgba(0, 201, 167, 0.4); }
+
+.timeline-content {
+  flex: 1;
+  padding: 0 0 24px 0;
+}
+
+.timeline-content.active {
+  background: rgba(0, 201, 167, 0.05);
+  border: 1px solid rgba(0, 201, 167, 0.2);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 0;
+  box-shadow: 0 0 16px rgba(0, 201, 167, 0.1) inset;
+}
+
+.timeline-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.timeline-content__state {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.timeline-item.done .timeline-content__state { color: var(--teal-primary); }
+
+.timeline-content__date {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  font-family: var(--font-family-mono);
+}
+
+.timeline-content__desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Side Cards (GlassCard handles bg) */
+.track-side-card {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.track-right { display: flex; flex-direction: column; }
+
+/* Form input reuse */
+.form-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: var(--font-family-main);
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  backdrop-filter: blur(8px);
+}
+
+.form-input:focus {
+  border-color: rgba(0, 201, 167, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.1), 0 0 16px rgba(0, 201, 167, 0.1) inset;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.form-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .track-columns {
+    grid-template-columns: 1fr;
+  }
+  .track-header-card__top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

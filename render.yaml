@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: jansetu-backend
+    runtime: python 3.11
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: SECRET_KEY
+        value: $SECRET_KEY
+      - key: JWT_SECRET
+        value: $JWT_SECRET
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 60

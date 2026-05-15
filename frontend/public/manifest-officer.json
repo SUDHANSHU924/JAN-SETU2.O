@@ -1,0 +1,49 @@
+{
+  "name": "JanSetu – Officer Command",
+  "short_name": "JanSetu Officer",
+  "description": "Command center for JanSetu grievance officers and authorities",
+  "theme_color": "#006A85",
+  "background_color": "#C8E6F0",
+  "display": "standalone",
+  "orientation": "any",
+  "start_url": "/officer",
+  "scope": "/",
+  "categories": ["government", "productivity", "utilities"],
+  "lang": "en-IN",
+  "icons": [
+    { "src": "/icons/icon-officer-72.svg",  "sizes": "72x72",   "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-96.svg",  "sizes": "96x96",   "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-128.svg", "sizes": "128x128", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-144.svg", "sizes": "144x144", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-152.svg", "sizes": "152x152", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-384.svg", "sizes": "384x384", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-officer-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Open command dashboard",
+      "url": "/officer",
+      "icons": [{ "src": "/icons/icon-officer-96.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Complaint Queue",
+      "short_name": "Queue",
+      "description": "View active complaint queue",
+      "url": "/officer/queue",
+      "icons": [{ "src": "/icons/icon-officer-96.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Escalations",
+      "short_name": "Escalations",
+      "description": "View SLA breaches and escalations",
+      "url": "/officer/escalations",
+      "icons": [{ "src": "/icons/icon-officer-96.svg", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

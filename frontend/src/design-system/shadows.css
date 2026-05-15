@@ -1,0 +1,16 @@
+:root {
+  --shadow-layer-0: none;
+  --shadow-layer-1: none;
+  --shadow-layer-2: 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-layer-3: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,201,167,0.08);
+  --shadow-layer-4: 0 20px 60px rgba(0,0,0,0.5), 0 0 80px rgba(0,201,167,0.08);
+
+  /* Legacy mappings */
+  --shadow-card: var(--shadow-layer-2);
+  --shadow-card-hover: var(--shadow-layer-3);
+  --shadow-glow: 0 0 0 3px var(--teal-glow);
+  --shadow-sm: var(--shadow-layer-1);
+  --shadow-md: var(--shadow-layer-2);
+  --shadow-lg: var(--shadow-layer-3);
+  --shadow-toast: var(--shadow-layer-4);
+}

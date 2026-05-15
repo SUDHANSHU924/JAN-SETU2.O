@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- ── Fonts ─────────────────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- ── SEO ──────────────────────────────────────────────────── -->
+    <title>JanSetu – Smart Civic Grievance System</title>
+    <meta name="description" content="JanSetu is India's AI-powered civic grievance platform connecting citizens with authorities for seamless complaint filing and tracking." />
+    <meta name="keywords" content="JanSetu, grievance, citizen portal, civic complaints, India, government" />
+    <meta name="author" content="JanSetu" />
+
+    <!-- ── PWA: Manifest (swapped at runtime by registerSW.js) ───── -->
+    <link rel="manifest" href="/manifest-citizen.json" />
+
+    <!-- ── PWA: Theme Color (swapped at runtime per domain) ──────── -->
+    <meta name="theme-color" content="#009DC4" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="JanSetu" />
+    <meta name="application-name" content="JanSetu" />
+    <meta name="msapplication-TileColor" content="#009DC4" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- ── Icons ─────────────────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-152.svg" />
+    <link rel="apple-touch-icon" sizes="72x72"   href="/icons/icon-72.svg" />
+    <link rel="apple-touch-icon" sizes="96x96"   href="/icons/icon-96.svg" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.svg" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144.svg" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.svg" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.svg" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.svg" />
+
+    <!-- ── Apple Splash Screens ──────────────────────────────────── -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- ── Open Graph ────────────────────────────────────────────── -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content="JanSetu – Smart Civic Grievance System" />
+    <meta property="og:description" content="File and track civic complaints with AI-powered resolution." />
+    <meta property="og:image"       content="/icons/icon-512.svg" />
+
+    <!-- ── Twitter Card ──────────────────────────────────────────── -->
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:title"       content="JanSetu" />
+    <meta name="twitter:description" content="AI-powered civic grievance system for India." />
+    <meta name="twitter:image"       content="/icons/icon-512.svg" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

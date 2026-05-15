@@ -1,0 +1,10 @@
+backend/
+services/
+.github/
+node_modules/
+*.md
+*.py
+*.toml
+.git/
+.gitignore
+render.yaml

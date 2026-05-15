@@ -1,0 +1,89 @@
+/* ─── Button Component ───────────────────────────────────────────── */
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-family-main);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  will-change: transform;
+}
+
+/* Sizes */
+.ui-button--sm { height: 32px; padding: 0 14px; font-size: 13px; }
+.ui-button--md { height: 40px; padding: 0 18px; font-size: 14px; }
+.ui-button--lg { height: 48px; padding: 0 24px; font-size: 15px; }
+
+/* Primary */
+.ui-button--primary {
+  background: linear-gradient(135deg, var(--teal-primary), var(--blue-electric));
+  color: white;
+  box-shadow: 0 4px 14px rgba(0, 201, 167, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ui-button--primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(0, 201, 167, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.ui-button--primary:active:not(:disabled) {
+  box-shadow: 0 2px 8px rgba(0, 201, 167, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Outline */
+.ui-button--outline,
+.ui-button--secondary {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ui-button--outline:hover:not(:disabled),
+.ui-button--secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ui-button--outline:active:not(:disabled),
+.ui-button--secondary:active:not(:disabled) {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ghost */
+.ui-button--ghost {
+  background: transparent;
+  color: var(--teal-primary);
+  border: none;
+  box-shadow: none;
+}
+
+.ui-button--ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Disabled */
+.ui-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading spinner */
+.ui-button__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}

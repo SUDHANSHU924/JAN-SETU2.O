@@ -1,0 +1,234 @@
+/* ─── Officer Sidebar ────────────────────────────────────────────── */
+.officer-sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: rgba(6, 11, 24, 0.80);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  transition: transform 0.3s ease-in-out;
+}
+
+.officer-sidebar__header {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.officer-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.officer-sidebar__brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--teal-primary), var(--blue-electric));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.officer-sidebar__title {
+  font-family: var(--font-family-display);
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--teal-primary), var(--blue-electric));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.officer-sidebar__role {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.officer-sidebar__nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.officer-sidebar__section-label {
+  font-size: 11px;
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 12px 12px 4px;
+}
+
+.officer-sidebar__link {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  border-left: 3px solid transparent;
+  margin-left: -3px;
+}
+
+.officer-sidebar__link svg {
+  stroke-width: 1.5;
+}
+
+.officer-sidebar__link:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateX(3px);
+  color: var(--text-primary);
+}
+
+.officer-sidebar__link.active {
+  background: rgba(0, 201, 167, 0.10);
+  color: var(--teal-primary);
+  border-left: 3px solid var(--teal-primary);
+  box-shadow: -4px 0 12px rgba(0, 201, 167, 0.3);
+  font-weight: 600;
+}
+
+.officer-sidebar__link-badge {
+  margin-left: auto;
+  background: rgba(255, 77, 109, 0.2);
+  color: var(--status-high);
+  border: 1px solid var(--status-high);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-family-mono);
+  padding: 1px 6px;
+  border-radius: 12px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.officer-sidebar__footer {
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.officer-sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.officer-sidebar__user:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.officer-sidebar__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-primary), var(--blue-electric));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.officer-sidebar__avatar::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid var(--teal-primary);
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+.officer-sidebar__user-info { flex: 1; min-width: 0; }
+
+.officer-sidebar__user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.officer-sidebar__user-role { font-size: 12px; color: var(--text-secondary); }
+
+/* Collapse on mobile */
+@media (max-width: 1023px) {
+  .officer-sidebar {
+    transform: translateX(-100%);
+  }
+  .officer-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* ─── Light Mode — Officer Sidebar overrides ────────────────── */
+[data-theme="light"] .officer-sidebar {
+  background: rgba(248, 250, 255, 0.92);
+  border-right-color: rgba(59, 130, 246, 0.12);
+  box-shadow: 2px 0 20px rgba(15, 30, 56, 0.06);
+}
+
+[data-theme="light"] .officer-sidebar__header {
+  border-bottom-color: rgba(59, 130, 246, 0.10);
+}
+
+[data-theme="light"] .officer-sidebar__link:hover {
+  background: rgba(15, 30, 56, 0.05);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .officer-sidebar__link.active {
+  background: rgba(0, 127, 110, 0.08);
+  box-shadow: -4px 0 12px rgba(0, 127, 110, 0.20);
+}
+
+[data-theme="light"] .officer-sidebar__footer {
+  border-top-color: rgba(59, 130, 246, 0.10);
+}
+
+[data-theme="light"] .officer-sidebar__user:hover {
+  background: rgba(15, 30, 56, 0.05);
+}
+
+[data-theme="light"] .officer-sidebar__link-badge {
+  background: rgba(220, 38, 38, 0.10);
+}

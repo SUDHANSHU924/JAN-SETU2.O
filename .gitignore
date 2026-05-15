@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Node and local machine files
+node_modules/
+.DS_Store
+.cache/
+.local/
+.upm/
+.vercel
+.env*.local

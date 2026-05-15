@@ -1,0 +1,69 @@
+/* ─── Ambient Background — Aurora Orbs + Cursor Spotlight ─────────── */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Aurora Orb — base */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+/* Orb 1 — teal, drifts slowly top-left → bottom-right */
+.ambient-orb--teal {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 201, 167, 0.07) 0%, transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation: drift-teal 28s ease-in-out infinite alternate;
+}
+
+/* Orb 2 — blue, drifts bottom-right → top-left */
+.ambient-orb--blue {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  bottom: -5%;
+  right: -5%;
+  animation: drift-blue 22s ease-in-out infinite alternate;
+}
+
+@keyframes drift-teal {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(8vw, 5vh) scale(1.1); }
+  66%  { transform: translate(4vw, 12vh) scale(0.95); }
+  100% { transform: translate(12vw, 8vh) scale(1.05); }
+}
+
+@keyframes drift-blue {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-6vw, -8vh) scale(1.08); }
+  66%  { transform: translate(-12vw, -4vh) scale(0.92); }
+  100% { transform: translate(-8vw, -10vh) scale(1.1); }
+}
+
+/* ─── Cursor Spotlight (Officer Dashboard Only) ───────────────────── */
+.cursor-spotlight {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 201, 167, 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: left 0.05s linear, top 0.05s linear;
+  will-change: left, top;
+  mix-blend-mode: plus-lighter;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb { animation: none; }
+}

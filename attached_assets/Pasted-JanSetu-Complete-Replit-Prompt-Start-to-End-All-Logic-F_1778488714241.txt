@@ -1,0 +1,511 @@
+JanSetu — Complete Replit Prompt
+Start to End · All Logic · Fix All Issues · Run Everything
+
+REPLIT AGENT INSTRUCTION
+You have been given a zip file of the JanSetu project. This is a full-stack AI-powered citizen grievance management system for India. Your job is to:
+1. Extract and understand the entire codebase
+2. Fix ALL errors — especially login/fetch issues
+3. Make the complete system run end-to-end on Replit
+4. Connect all services properly
+5. Ensure both apps (citizen + officer) work completely
+Read this entire document before touching any file. Every decision is explained here.
+
+PART 1 — WHAT THIS PROJECT IS
+JanSetu is a monorepo containing two web apps and multiple backend services:
+App 1 — Citizen Portal (jansetu.in equivalent on Replit → runs on port 3000) Citizens file complaints in any Indian language, track status, give feedback.
+App 2 — Officer Portal (officer.jansetu.in equivalent → runs on port 3001) Government officers receive complaints, update status, resolve, escalate.
+Backend API (FastAPI Python → port 8000) Single REST API serving both apps. JWT authentication. All business logic here.
+AI Engine (FastAPI Python → port 8001) Separate service running all AI models: DistilBERT, MiniLM, CLIP, Whisper, XGBoost.
+Realtime Service (Node.js + Socket.io → port 3002) Live updates: new complaints appear on officer dashboard without refresh.
+Database (PostgreSQL via Supabase — already connected) Connection string already in environment variables.
+
+PART 2 — MONOREPO FOLDER STRUCTURE
+This is what the repo looks like. If anything is missing or misplaced, fix it:
+jansetu/
+├── apps/
+│   ├── citizen/              Next.js 14 app (port 3000)
+│   │   ├── app/
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx          (landing page)
+│   │   │   ├── (auth)/
+│   │   │   │   ├── login/page.tsx
+│   │   │   │   └── verify/page.tsx
+│   │   │   └── (app)/
+│   │   │       ├── layout.tsx    (sidebar + bottom nav shell)
+│   │   │       ├── home/page.tsx
+│   │   │       ├── submit/page.tsx
+│   │   │       ├── track/page.tsx
+│   │   │       ├── track/[id]/page.tsx
+│   │   │       ├── profile/page.tsx
+│   │   │       └── feedback/[id]/page.tsx
+│   │   ├── package.json
+│   │   └── .env.local
+│   │
+│   └── officer/              Next.js 14 app (port 3001)
+│       ├── app/
+│       │   ├── layout.tsx
+│       │   ├── page.tsx          (redirect to login)
+│       │   ├── login/page.tsx
+│       │   └── (dashboard)/
+│       │       ├── layout.tsx    (sidebar shell)
+│       │       ├── dashboard/page.tsx
+│       │       ├── complaints/page.tsx
+│       │       ├── complaints/[id]/page.tsx
+│       │       ├── escalations/page.tsx
+│       │       ├── analytics/page.tsx
+│       │       └── profile/page.tsx
+│       ├── package.json
+│       └── .env.local
+│
+├── services/
+│   ├── backend/              FastAPI Python (port 8000)
+│   │   ├── app/
+│   │   │   ├── main.py
+│   │   │   ├── config.py
+│   │   │   ├── database.py
+│   │   │   ├── routers/
+│   │   │   │   ├── auth.py
+│   │   │   │   ├── complaints.py
+│   │   │   │   ├── users.py
+│   │   │   │   ├── officers.py
+│   │   │   │   ├── departments.py
+│   │   │   │   ├── analytics.py
+│   │   │   │   ├── notifications.py
+│   │   │   │   ├── feedback.py
+│   │   │   │   └── locations.py
+│   │   │   ├── models/
+│   │   │   ├── schemas/
+│   │   │   ├── services/
+│   │   │   └── ai_bridge/
+│   │   ├── requirements.txt
+│   │   └── .env
+│   │
+│   ├── ai-engine/            AI FastAPI Python (port 8001)
+│   │   ├── main.py
+│   │   ├── models/
+│   │   ├── pipeline/
+│   │   ├── weights/          (model files here)
+│   │   ├── requirements.txt
+│   │   └── .env
+│   │
+│   └── realtime/             Node.js Socket.io (port 3002)
+│       ├── server.js
+│       └── package.json
+│
+├── packages/
+│   ├── ui/                   Shared components
+│   ├── types/                Shared TypeScript types
+│   ├── api-client/           Shared Axios instance
+│   └── hooks/                Shared React hooks
+│
+├── database/
+│   └── migrations/           SQL files
+│
+├── .env                      Root env (Replit secrets)
+├── package.json              Turborepo root
+├── turbo.json
+└── replit.nix (or .replit)
+
+PART 3 — ENVIRONMENT VARIABLES (FIX THIS FIRST)
+This is the most common cause of login/fetch failures. Set ALL of these as Replit Secrets (not in code files). Go to Replit → Secrets → Add each one.
+Backend (.env in services/backend/)
+DATABASE_URL=postgresql+asyncpg://postgres:[PASSWORD]@db.[PROJECT].supabase.co:5432/postgres
+MONGO_URI=mongodb://localhost:27017/jansetu
+REDIS_URL=redis://localhost:6379
+JWT_SECRET=jansetu_super_secret_key_change_in_production_2026
+JWT_ALGORITHM=HS256
+JWT_ACCESS_EXPIRY_MINUTES=1440
+JWT_REFRESH_EXPIRY_DAYS=30
+AI_ENGINE_URL=http://localhost:8001
+REALTIME_SERVICE_URL=http://localhost:3002
+FRONTEND_CITIZEN_URL=https://[YOUR-REPLIT-URL]
+FRONTEND_OFFICER_URL=https://[YOUR-REPLIT-URL]
+CORS_ORIGINS=["http://localhost:3000","http://localhost:3001","https://[YOUR-REPLIT-URL]"]
+Citizen App (.env.local in apps/citizen/)
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+NEXT_PUBLIC_SOCKET_URL=http://localhost:3002
+NEXT_PUBLIC_APP_NAME=JanSetu
+NEXT_PUBLIC_USE_MOCK=false
+Officer App (.env.local in apps/officer/)
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+NEXT_PUBLIC_SOCKET_URL=http://localhost:3002
+NEXT_PUBLIC_USE_MOCK=false
+CRITICAL: If running on Replit (not localhost)
+Replit assigns a URL like https://jansetu.username.repl.co All localhost references must become the Replit URL. Fix this automatically:
+In apps/citizen/.env.local:
+NEXT_PUBLIC_API_URL=https://jansetu.[USERNAME].repl.co/api/v1
+In apps/officer/.env.local:
+NEXT_PUBLIC_API_URL=https://jansetu.[USERNAME].repl.co/api/v1
+
+PART 4 — LOGIN ISSUE ROOT CAUSES AND FIXES
+The login/fetch not working has these possible causes. Check ALL of them:
+Cause 1 — CORS not configured in backend
+In services/backend/app/main.py, the CORS middleware must allow the frontend origins. If this is wrong, the browser blocks every API call silently with a CORS error.
+Fix: Make sure this exists in main.py:
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://[YOUR-REPLIT-URL]",
+        "*"  # For development only
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+Cause 2 — Wrong API URL in frontend
+The citizen/officer apps are calling the wrong backend URL. Check apps/citizen/app/(auth)/login/page.tsx or wherever the login API call is made.
+The API call should look like:
+POST {NEXT_PUBLIC_API_URL}/auth/login
+Body: { phone: "9876543210", password: "Commander@123" }
+If NEXT_PUBLIC_API_URL is undefined or wrong, all fetches will fail.
+Fix: Add console.log(process.env.NEXT_PUBLIC_API_URL) temporarily to verify the value.
+Cause 3 — Database connection string wrong
+asyncpg driver requires postgresql+asyncpg:// not postgresql://
+Fix: Make sure DATABASE_URL starts with: postgresql+asyncpg://
+Cause 4 — Backend not running when frontend calls it
+On Replit, all services must start before the frontend. If backend hasn't started yet, every fetch returns connection refused.
+Fix: Add a startup health check. In the api-client, before making any call, verify the backend is reachable at /health endpoint.
+Cause 5 — Password hash mismatch
+The seed data used crypt() from pgcrypto. The backend login must verify using the same algorithm. In services/backend/app/routers/auth.py:
+from passlib.context import CryptContext
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Verify: pwd_context.verify(plain_password, hashed_password)
+# Hash:   pwd_context.hash(plain_password)
+The pgcrypto crypt() and Python bcrypt ARE compatible if using bf (blowfish) salt. If they are not matching, reset the password with:
+UPDATE users
+SET password_hash = crypt('Commander@123', gen_salt('bf', 10))
+WHERE phone = '9876543210';
+Cause 6 — JWT token not being sent in subsequent requests
+After login, the token must be stored and sent with every request. In packages/api-client, the Axios interceptor must add the header:
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('jansetu_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+If the token key name is different (e.g., 'token' vs 'jansetu_token'), login succeeds but all authenticated routes return 401 Unauthorized.
+Cause 7 — Next.js 14 Server vs Client component fetch
+In Next.js 14 App Router, components that use localStorage, hooks, or browser APIs MUST have 'use client' at the top. If login page is a Server Component trying to call client-side APIs, it will fail.
+Fix: Add 'use client' to the top of every page that:
+* Uses useState, useEffect
+* Makes API calls on user interaction
+* Reads localStorage
+* Uses Socket.io
+
+PART 5 — COMPLETE LOGIN FLOW LOGIC
+This is how login MUST work from click to dashboard. Implement this exactly.
+Citizen Login
+1. User enters phone (9000000002) and password (Citizen@123)
+2. Frontend calls: POST http://localhost:8000/api/v1/auth/login Body: { "phone": "9000000002", "password": "Citizen@123" }
+3. Backend verifies: finds user by phone, checks bcrypt password hash
+4. Backend returns: {  "success": true,  "data": {    "access_token": "eyJ...",    "refresh_token": "eyJ...",    "token_type": "bearer",    "user_id": "uuid-here",    "role": "citizen",    "name": "Rahul Sharma"  }}
+5. 
+6. Frontend stores: localStorage.setItem('jansetu_token', access_token) Also stores: localStorage.setItem('jansetu_user', JSON.stringify({user_id, role, name}))
+7. Frontend redirects: role === 'citizen' → /home, role === 'officer' → /dashboard
+8. All subsequent API calls include: Authorization: Bearer {token}
+Officer Login (Commander Access)
+1. Officer enters phone (9876543210) and password (Commander@123)
+2. Frontend calls: POST http://localhost:8000/api/v1/auth/officer-login (Separate endpoint that validates role === 'officer' or 'admin')
+3. Same token flow as citizen but role = 'officer'
+4. Redirect to officer dashboard at localhost:3001/dashboard
+Token Verification on Every Route
+Every protected page must check:
+1. Is there a token in localStorage?
+2. Is the token expired? (check exp field in JWT payload)
+3. Is the role correct for this app?
+If any check fails → redirect to login page immediately.
+
+PART 6 — BACKEND API — ALL ENDPOINTS TO BUILD
+Build ALL of these. If any is missing, create it.
+Authentication
+POST /api/v1/auth/register
+  Body: { phone, name, password, language_pref? }
+  Response: { access_token, refresh_token, user_id, role }
+
+POST /api/v1/auth/login
+  Body: { phone, password }
+  Response: { access_token, refresh_token, user_id, role, name }
+
+POST /api/v1/auth/officer-login
+  Body: { phone, password }
+  Validates: role must be 'officer' or 'admin'
+  Response: same as login
+
+POST /api/v1/auth/refresh
+  Body: { refresh_token }
+  Response: { access_token }
+
+POST /api/v1/auth/logout
+  Auth: Bearer token required
+  Action: blacklist refresh token in Redis
+Location Endpoints (For Officer Location Selection)
+GET /api/v1/locations/states
+  Response: [{ state_id, state_name, state_code }]
+
+GET /api/v1/locations/districts?state_id=1
+  Response: [{ district_id, district_name }]
+
+GET /api/v1/locations/areas?district_id=1
+  Response: [{ area_id, area_name, pincode }]
+
+GET /api/v1/locations/wards?area_id=1
+  Response: [{ ward_id, ward_number, ward_name }]
+Complaints
+POST /api/v1/complaints
+  Auth: citizen only
+  Body: { text, language, lat, lng, address, media_urls?, category? }
+  Action: runs full AI pipeline, generates token, assigns officer
+  Response: { complaint_id, tracking_token, sla_days, status, ai_analysis }
+
+GET /api/v1/complaints?page=1&limit=20&status=&priority=&zone_id=
+  Auth: officer or admin
+  Response: paginated list of complaints with AI analysis
+
+GET /api/v1/complaints/{tracking_token}
+  Auth: citizen (own only) or officer/admin
+  Response: full complaint + ai analysis + officer info + timeline
+
+PATCH /api/v1/complaints/{id}/status
+  Auth: officer only
+  Body: { status, note }
+  Action: updates status, creates audit log, sends notification via Socket.io
+
+PATCH /api/v1/complaints/{id}/resolve
+  Auth: officer only
+  Body: { resolution_text, resolution_media_urls? }
+  Action: marks resolved, updates dept score, sends citizen notification
+
+GET /api/v1/complaints/my
+  Auth: citizen only
+  Response: all complaints filed by this citizen
+Users
+GET /api/v1/users/me
+  Auth: any authenticated
+  Response: user profile + trust score + complaint stats
+
+PATCH /api/v1/users/me
+  Auth: any authenticated
+  Body: { name?, language_pref?, email? }
+
+GET /api/v1/users/me/trust-history
+  Auth: citizen only
+  Response: list of trust score changes
+Officers
+GET /api/v1/officers/me/queue
+  Auth: officer only
+  Response: complaints assigned to this officer, sorted by priority + SLA urgency
+
+GET /api/v1/officers/me/performance
+  Auth: officer only
+  Response: { complaints_handled, resolved, avg_resolution_days, rating }
+
+PATCH /api/v1/officers/me/jurisdiction
+  Auth: officer only
+  Body: { state_id, district_id, area_id, ward_id }
+Departments
+GET /api/v1/departments
+  Public
+  Response: all departments with latest accountability scores
+
+GET /api/v1/departments/{id}/score
+  Public
+  Response: score breakdown + history
+Analytics (Admin only)
+GET /api/v1/analytics/overview
+GET /api/v1/analytics/categories?start_date=&end_date=
+GET /api/v1/analytics/heatmap
+GET /api/v1/analytics/sla-compliance
+GET /api/v1/analytics/auth-scores
+Feedback
+POST /api/v1/feedback
+  Auth: citizen only
+  Body: { complaint_id, rating (1-5), comment? }
+  Action: updates dept score, updates citizen trust score +5
+
+GET /api/v1/feedback/{complaint_id}
+  Auth: officer or admin
+Health Check
+GET /api/v1/health
+  Public
+  Response: { status: "ok", timestamp, db: "connected", ai: "connected" }
+
+PART 7 — REPLIT STARTUP CONFIGURATION
+Create this .replit file in the root directory:
+run = "bash start.sh"
+entrypoint = "start.sh"
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
+
+[[ports]]
+localPort = 8001
+externalPort = 8001
+
+[[ports]]
+localPort = 3002
+externalPort = 3002
+Create start.sh in root:
+#!/bin/bash
+echo "Starting JanSetu services..."
+
+# Install dependencies if not installed
+cd services/backend && pip install -r requirements.txt -q &
+cd services/ai-engine && pip install -r requirements.txt -q &
+cd services/realtime && npm install -q &
+cd apps/citizen && npm install -q &
+cd apps/officer && npm install -q &
+wait
+
+echo "Dependencies installed. Starting services..."
+
+# Start backend
+cd services/backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload &
+BACKEND_PID=$!
+echo "Backend started (PID: $BACKEND_PID)"
+
+# Wait for backend to be ready
+sleep 5
+
+# Start AI engine (with fallback if models not loaded)
+cd ../ai-engine
+uvicorn main:app --host 0.0.0.0 --port 8001 --reload &
+AI_PID=$!
+echo "AI Engine started (PID: $AI_PID)"
+
+# Start realtime service
+cd ../realtime
+node server.js &
+RT_PID=$!
+echo "Realtime started (PID: $RT_PID)"
+
+# Start citizen app
+cd ../../apps/citizen
+npm run dev -- --port 3000 &
+CITIZEN_PID=$!
+echo "Citizen app started (PID: $CITIZEN_PID)"
+
+# Start officer app
+cd ../officer
+npm run dev -- --port 3001 &
+OFFICER_PID=$!
+echo "Officer app started (PID: $OFFICER_PID)"
+
+echo "All services running!"
+echo "Citizen: http://localhost:3000"
+echo "Officer: http://localhost:3001"
+echo "API:     http://localhost:8000/docs"
+echo "AI:      http://localhost:8001/docs"
+
+# Keep alive
+wait
+
+
+PART 10 — TEST CREDENTIALS
+Use these to test both apps after fixing:
+OFFICER (Commander) LOGIN:
+  Phone:    9876543210
+  Password: Commander@123
+  App:      localhost:3001 (officer portal)
+  Access:   Dashboard, complaints queue, escalations, analytics
+
+ADMIN LOGIN:
+  Phone:    9000000001
+  Password: Admin@123
+  App:      localhost:3001 (same officer portal)
+  Access:   Everything including analytics
+
+CITIZEN LOGIN:
+  Phone:    9000000002
+  Password: Citizen@123
+  App:      localhost:3000 (citizen portal)
+  Access:   File complaint, track, feedback, profile
+
+PART 11 — TESTING SEQUENCE
+After everything starts, test in this order:
+Test 1 — Backend health check
+GET http://localhost:8000/api/v1/health
+Expected: { "status": "ok" }
+Test 2 — Officer login
+POST http://localhost:8000/api/v1/auth/officer-login
+Body: { "phone": "9876543210", "password": "Commander@123" }
+Expected: { "success": true, "data": { "access_token": "...", "role": "officer" } }
+Test 3 — Get complaints (with token)
+GET http://localhost:8000/api/v1/officers/me/queue
+Header: Authorization: Bearer {token from test 2}
+Expected: list of 5 complaints from seed data
+Test 4 — Citizen login
+POST http://localhost:8000/api/v1/auth/login
+Body: { "phone": "9000000002", "password": "Citizen@123" }
+Expected: { "success": true, "data": { "role": "citizen" } }
+Test 5 — Track complaint
+GET http://localhost:8000/api/v1/complaints/JS-WTR-MHANE05-2026-0001
+Header: Authorization: Bearer {citizen token}
+Expected: full complaint details
+
+PART 12 — COMMON REPLIT-SPECIFIC ISSUES AND FIXES
+Issue: "Module not found" in Next.js
+Fix: Make sure packages/ui, packages/types, packages/api-client are properly linked in apps/citizen/package.json and apps/officer/package.json as workspace dependencies.
+Issue: Port already in use
+Fix: In .replit or start.sh, kill existing processes before starting:
+pkill -f uvicorn || true
+pkill -f "next dev" || true
+pkill -f "node server" || true
+Issue: Replit URL changes, breaking API calls
+Fix: Use relative API routes in Next.js instead of absolute URLs. In apps/citizen/app/api/[...path]/route.ts, proxy all /api calls to backend. This way the frontend always calls /api/* relative to itself.
+Issue: Database SSL required by Supabase
+Fix: In DATABASE_URL append ?sslmode=require:
+postgresql+asyncpg://postgres:pass@db.xxx.supabase.co:5432/postgres?ssl=true
+In SQLAlchemy engine creation:
+engine = create_async_engine(
+    DATABASE_URL,
+    connect_args={"ssl": True}
+)
+Issue: Slow startup on Replit free tier
+Fix: The AI engine takes longest to start. Add a loading state to both frontends that polls /api/v1/health every 2 seconds and only shows the app when backend responds.
+
+PART 13 — EVERYTHING WORKING CHECKLIST
+Go through this before saying it's done:
+[ ] Backend starts without errors on port 8000
+[ ] /api/v1/health returns { status: "ok" }
+[ ] Officer login returns a JWT token
+[ ] Citizen login returns a JWT token
+[ ] Officer dashboard loads with complaint list
+[ ] Complaint detail page loads with timeline
+[ ] Citizen can see their filed complaints
+[ ] Location dropdowns (state→district→area→ward) load data
+[ ] Notifications appear for officer
+[ ] AI engine health check passes
+[ ] No CORS errors in browser console
+[ ] No 401 Unauthorized on authenticated routes
+[ ] No 404 on any required endpoint
+[ ] Socket.io connects without error
+[ ] Both apps responsive on mobile width
+
+SUMMARY FOR REPLIT
+Project: JanSetu monorepo Two Next.js apps (ports 3000, 3001) + FastAPI backend (8000) + AI engine (8001) + Socket.io (3002) Database: PostgreSQL on Supabase (already connected)
+Priority order of fixes:
+1. Fix CORS in backend main.py
+2. Fix environment variables (NEXT_PUBLIC_API_URL must point to backend)
+3. Fix password verification (bcrypt)
+4. Enable AI mock mode (USE_MOCK_AI=true) so app works without heavy models
+5. Fix any missing API endpoints
+6. Fix 'use client' directives in Next.js pages
+7. Run seed data SQL if database tables are empty
+Test credentials: Officer: 9876543210 / Commander@123 Citizen: 9000000002 / Citizen@123 Admin: 9000000001 / Admin@123
+The goal is: Officer logs in → sees complaint queue → can update status. Citizen logs in → sees their complaints → can track status. This is the minimum viable demo. Get this working first, then everything else.

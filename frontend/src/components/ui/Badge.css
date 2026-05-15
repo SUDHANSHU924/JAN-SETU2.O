@@ -1,0 +1,104 @@
+/* ─── Badge Component ────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-family: var(--font-family-main);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  white-space: nowrap;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Default / Info */
+.badge--default,
+.badge--active {
+  background: rgba(0, 201, 167, 0.1);
+  color: var(--teal-primary);
+  border: 1px solid rgba(0, 201, 167, 0.2);
+  box-shadow: 0 0 12px rgba(0, 201, 167, 0.15);
+}
+
+/* Success / Low Priority */
+.badge--completed,
+.badge--resolved,
+.badge--low {
+  background: var(--status-low-glow);
+  color: var(--status-low);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+}
+
+/* Warning / Medium Priority */
+.badge--medium,
+.badge--pending,
+.badge--streak {
+  background: var(--status-med-glow);
+  color: var(--status-med);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.15);
+}
+
+/* Urgent / High Priority */
+.badge--urgent,
+.badge--high {
+  background: var(--status-high-glow);
+  color: var(--status-high);
+  border: 1px solid rgba(255, 77, 109, 0.2);
+  box-shadow: 0 0 12px rgba(255, 77, 109, 0.15);
+}
+
+/* SLA Breach */
+.badge--sla {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--status-sla);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+  0% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.2); }
+  50% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.4); }
+  100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.2); }
+}
+
+/* Priority dot */
+.badge--high::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-high);
+  box-shadow: 0 0 6px var(--status-high);
+  flex-shrink: 0;
+}
+
+.badge--medium::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-med);
+  box-shadow: 0 0 6px var(--status-med);
+  flex-shrink: 0;
+}
+
+.badge--low::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-low);
+  box-shadow: 0 0 6px var(--status-low);
+  flex-shrink: 0;
+}

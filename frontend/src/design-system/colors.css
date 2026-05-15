@@ -1,0 +1,155 @@
+:root {
+  /* PART 1 — NEW COLOR SYSTEM */
+  /* Primary Palette — Dark Civic Intelligence */
+  --space-black:      #060B18;
+  --space-navy:       #0A1628;
+  --space-surface:    #0F1E38;
+  --space-elevated:   #162545;
+  --space-border:     rgba(99,140,210,0.12);
+  --space-border-glow: rgba(0,200,180,0.25);
+
+  /* Glass Surfaces */
+  --glass-light:      rgba(255,255,255,0.04);
+  --glass-medium:     rgba(255,255,255,0.07);
+  --glass-strong:     rgba(255,255,255,0.10);
+  --glass-blur:       blur(20px) saturate(180%);
+  --glass-blur-heavy: blur(40px) saturate(200%);
+
+  /* Accent Colors — Two-tone system */
+  --teal-primary:    #00C9A7;
+  --teal-glow:       rgba(0,201,167,0.15);
+  --teal-deep:       #00A689;
+
+  --blue-electric:   #3B82F6;
+  --blue-glow:       rgba(59,130,246,0.15);
+  --blue-electric2:  #60A5FA;
+
+  --aurora-1:        #00C9A7;
+  --aurora-2:        #3B82F6;
+  --aurora-3:        #8B5CF6;
+
+  /* Semantic Colors */
+  --status-high:     #FF4D6D;
+  --status-high-glow: rgba(255,77,109,0.20);
+  --status-med:      #F59E0B;
+  --status-med-glow: rgba(245,158,11,0.20);
+  --status-low:      #10B981;
+  --status-low-glow: rgba(16,185,129,0.20);
+  --status-sla:      #EF4444;
+
+  /* Text Colors */
+  --text-primary:    #E8EFF8;
+  --text-secondary:  #7B92B4;
+  --text-tertiary:   #4A607A;
+  --text-accent:     #00C9A7;
+
+  /* Light Mode Option */
+  --lm-bg:           #F0F5FC;
+  --lm-surface:      rgba(255,255,255,0.80);
+  --lm-border:       rgba(59,130,246,0.12);
+  --lm-text:         #0F1E38;
+  --lm-text-muted:   #4A607A;
+  --lm-accent:       #0078D4;
+
+  /* Legacy mappings (temporary) */
+  --color-bg: var(--space-black);
+  --color-bg-secondary: var(--space-navy);
+  --color-card: var(--space-surface);
+  --color-card-solid: var(--space-surface);
+  --color-surface-light: var(--space-elevated);
+  --color-border: var(--space-border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-tertiary);
+  --color-text-white: #ffffff;
+  --color-accent: var(--teal-primary);
+  --color-accent-secondary: var(--blue-electric);
+  --color-accent-dark: var(--teal-deep);
+  --color-success: var(--status-low);
+  --color-success-text: var(--status-low);
+  --color-warning: var(--status-med);
+  --color-warning-text: var(--status-med);
+  --color-urgent-bg: var(--status-high-glow);
+  --color-urgent-text: var(--status-high);
+  --color-info-bg: var(--blue-glow);
+  --color-info-text: var(--blue-electric);
+  --color-active-glow: var(--teal-glow);
+  --gradient-progress: linear-gradient(135deg, var(--teal-primary) 0%, var(--blue-electric) 100%);
+  --gradient-success: linear-gradient(135deg, var(--status-low-glow) 0%, var(--status-low) 100%);
+}
+
+/* ─── Light Mode Token Overrides ────────────────────────────────── */
+[data-theme="light"] {
+  /* Backgrounds */
+  --space-black:      #F0F5FC;
+  --space-navy:       #E6EEF9;
+  --space-surface:    #FFFFFF;
+  --space-elevated:   #F8FAFF;
+  --space-border:     rgba(59, 130, 246, 0.15);
+  --space-border-glow: rgba(0, 120, 212, 0.30);
+
+  /* Glass Surfaces — lighter frosted look */
+  --glass-light:      rgba(255, 255, 255, 0.70);
+  --glass-medium:     rgba(255, 255, 255, 0.85);
+  --glass-strong:     rgba(255, 255, 255, 0.95);
+
+  /* Accent Colors — keep teal but enrich */
+  --teal-primary:    #007F6E;
+  --teal-glow:       rgba(0, 127, 110, 0.12);
+  --teal-deep:       #005E52;
+
+  --blue-electric:   #2563EB;
+  --blue-glow:       rgba(37, 99, 235, 0.12);
+  --blue-electric2:  #3B82F6;
+
+  --aurora-1:        #007F6E;
+  --aurora-2:        #2563EB;
+  --aurora-3:        #7C3AED;
+
+  /* Text Colors */
+  --text-primary:    #0F1E38;
+  --text-secondary:  #3A5273;
+  --text-tertiary:   #7890AA;
+  --text-accent:     #007F6E;
+
+  /* Status Colors — same hue, slightly richer */
+  --status-high:     #DC2626;
+  --status-high-glow: rgba(220, 38, 38, 0.15);
+  --status-med:      #D97706;
+  --status-med-glow: rgba(217, 119, 6, 0.15);
+  --status-low:      #059669;
+  --status-low-glow: rgba(5, 150, 105, 0.15);
+  --status-sla:      #DC2626;
+
+  /* Legacy mappings — light mode overrides */
+  --color-bg:              #F0F5FC;
+  --color-bg-secondary:    #E6EEF9;
+  --color-card:            #FFFFFF;
+  --color-card-solid:      #FFFFFF;
+  --color-surface-light:   #F8FAFF;
+  --color-border:          rgba(59, 130, 246, 0.15);
+  --color-text-primary:    #0F1E38;
+  --color-text-secondary:  #3A5273;
+  --color-text-muted:      #7890AA;
+  --color-text-white:      #ffffff;
+  --color-accent:          #007F6E;
+  --color-accent-secondary: #2563EB;
+  --color-accent-dark:     #005E52;
+  --color-success:         #059669;
+  --color-success-text:    #059669;
+  --color-warning:         #D97706;
+  --color-warning-text:    #D97706;
+  --color-urgent-bg:       rgba(220, 38, 38, 0.08);
+  --color-urgent-text:     #DC2626;
+  --color-info-bg:         rgba(37, 99, 235, 0.08);
+  --color-info-text:       #2563EB;
+  --color-active-glow:     rgba(0, 127, 110, 0.12);
+  --gradient-progress:     linear-gradient(135deg, #007F6E 0%, #2563EB 100%);
+  --gradient-success:      linear-gradient(135deg, rgba(5,150,105,0.15) 0%, #059669 100%);
+}
+
+body {
+  background-color: var(--space-black);
+  color: var(--text-primary);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}

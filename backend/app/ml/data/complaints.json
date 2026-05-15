@@ -1,0 +1,26 @@
+{
+  "Roads": [
+    "Severe water leakage on main road near andheri station",
+    "pothole on main road",
+    "issue"
+  ],
+  "Electricity": [
+    "Shortage of water",
+    "No description provided",
+    "Issue",
+    "Fresh test complaint from UI end to end",
+    "Fresh complaint after user_id fix",
+    "Fresh complaint after guest hash fix",
+    "Unique pothole complaint for token test 2026-05-10 12:34",
+    "Unique token check 2 with different words and no previous duplicates"
+  ],
+  "Water Supply": [
+    "Water issue"
+  ],
+  "General": [
+    "Unique token check 2 with different words and no previous duplicates"
+  ],
+  "Sanitation": [
+    "issue"
+  ]
+}

@@ -1,0 +1,418 @@
+/* ─── Citizen App Shell ──────────────────────────────────────────── */
+.citizen-app {
+  display: flex;
+  min-height: 100vh;
+  background: var(--space-black);
+}
+
+.citizen-main {
+  flex: 1;
+  margin-left: 240px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.citizen-main-content {
+  flex: 1;
+  padding: 32px 40px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+/* ─── Page Header ────────────────────────────────────────────────── */
+.citizen-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(6, 11, 24, 0.8);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.citizen-page-header__left h1 {
+  font-family: var(--font-family-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.citizen-page-header__subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.citizen-page-header__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-bell {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--text-primary);
+}
+
+.header-bell:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--teal-primary);
+  color: var(--teal-primary);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 201, 167, 0.2);
+}
+
+.header-bell__dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: var(--status-high);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 77, 109, 0.6);
+}
+
+.header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-primary), var(--blue-electric));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+}
+
+/* ─── Right Insight Panel ────────────────────────────────────────── */
+.citizen-right-panel {
+  width: 280px;
+  flex-shrink: 0;
+  padding: 32px 24px;
+}
+
+.citizen-right-panel__sticky {
+  position: sticky;
+  top: 88px;
+}
+
+/* ─── Home Grid ──────────────────────────────────────────────────── */
+.home-desktop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* ─── Quick Stats ────────────────────────────────────────────────── */
+.quick-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-mini-card {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-mini-card__num {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.stat-mini-card__label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+/* ─── Complaint Cards ────────────────────────────────────────────── */
+.complaints-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.complaint-card {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.complaint-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(38, 135, 143, 0.1);
+  border: 1px solid rgba(38, 135, 143, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--teal-primary);
+}
+
+.complaint-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.complaint-card__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.complaint-card__meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.complaint-card__id {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.complaint-card__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ─── Action Hero Cards (File Complaint / Track Status) ───────── */
+.action-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  user-select: none;
+  outline: none;
+}
+
+/* Primary — File Complaint (solid teal) */
+.action-hero-card--primary {
+  background: var(--teal-primary);
+  border: 2px solid var(--teal-primary);
+  box-shadow: 0 6px 24px rgba(38, 135, 143, 0.28);
+  color: white;
+}
+
+.action-hero-card--primary:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(38, 135, 143, 0.36);
+}
+
+.action-hero-card--primary:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* Outline — Track Status */
+.action-hero-card--outline {
+  color: var(--teal-primary);
+}
+
+.action-hero-card--outline:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* Icon container */
+.action-hero-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.action-hero-card__icon--outline {
+  background: rgba(38, 135, 143, 0.1);
+  color: var(--teal-primary);
+}
+
+.action-hero-card--primary:hover .action-hero-card__icon {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* Body */
+.action-hero-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.action-hero-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: inherit;
+}
+
+.action-hero-card--outline .action-hero-card__title {
+  color: var(--text-primary);
+}
+
+.action-hero-card__sub {
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.action-hero-card--outline .action-hero-card__sub {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+/* Arrow */
+.action-hero-card__arrow {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.7);
+  transition: transform 0.2s ease;
+}
+
+.action-hero-card__arrow--outline {
+  color: var(--teal-primary);
+  opacity: 0.6;
+}
+
+.action-hero-card:hover .action-hero-card__arrow {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+/* ─── Mobile / Tablet ────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .citizen-main {
+    margin-left: 0;
+  }
+  .citizen-main-content {
+    padding: 24px 20px 80px;
+  }
+  .citizen-page-header {
+    padding: 16px 20px;
+  }
+  .citizen-right-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .citizen-main-content {
+    padding: 16px 16px 80px;
+  }
+  .citizen-page-header {
+    padding: 12px 16px;
+  }
+  .home-desktop-grid {
+    grid-template-columns: 1fr;
+  }
+  .quick-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .complaints-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Light Mode — Citizen overrides ──────────────────────────── */
+[data-theme="light"] .citizen-app {
+  background: var(--space-black);
+}
+
+[data-theme="light"] .citizen-page-header {
+  background: rgba(248, 250, 255, 0.90);
+  border-bottom-color: rgba(59, 130, 246, 0.12);
+  box-shadow: 0 2px 16px rgba(15, 30, 56, 0.06);
+}
+
+[data-theme="light"] .header-bell {
+  background: rgba(15, 30, 56, 0.05);
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="light"] .header-bell:hover {
+  background: rgba(15, 30, 56, 0.08);
+}
+
+[data-theme="light"] .complaint-card__icon {
+  background: rgba(0, 127, 110, 0.08);
+  border-color: rgba(0, 127, 110, 0.18);
+}
+
+/* ── Light mode: Fix primary action card (File Complaint) ────────── */
+/* GlassCard layer-3 applies white bg in light mode; override it     */
+[data-theme="light"] .action-hero-card--primary.glass-card-base {
+  background: var(--teal-primary) !important;
+  color: white !important;
+  border-color: var(--teal-primary) !important;
+  box-shadow: 0 6px 24px rgba(0, 127, 110, 0.30) !important;
+}
+
+[data-theme="light"] .action-hero-card--primary .action-hero-card__title,
+[data-theme="light"] .action-hero-card--primary .action-hero-card__sub,
+[data-theme="light"] .action-hero-card--primary .action-hero-card__arrow {
+  color: white !important;
+}
+
+[data-theme="light"] .action-hero-card--primary.glass-card-base:hover {
+  background: var(--teal-deep) !important;
+  border-color: var(--teal-deep) !important;
+  box-shadow: 0 10px 32px rgba(0, 94, 82, 0.35) !important;
+}
+
+/* ── Light mode: Track Status outline card ───────────────────────── */
+[data-theme="light"] .action-hero-card--outline.glass-card-base {
+  background: rgba(0, 127, 110, 0.05) !important;
+  border: 1.5px solid rgba(0, 127, 110, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(0, 127, 110, 0.08) !important;
+}
+
+[data-theme="light"] .action-hero-card--outline.glass-card-base:hover {
+  background: rgba(0, 127, 110, 0.10) !important;
+  border-color: rgba(0, 127, 110, 0.40) !important;
+  box-shadow: 0 8px 28px rgba(0, 127, 110, 0.15) !important;
+}
