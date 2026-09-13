@@ -76,36 +76,6 @@ User Input (text/voice/photo)
   🔀 Smart Routing       → Department + Officer + Zone
 ```
 
----
-
-## 🏗️ System Architecture
-
-```
-┌─────────────────────┐    ┌─────────────────────┐
-│   Citizen Portal    │    │   Officer Portal     │
-│   (React - :3000)   │    │   (React - :3001)    │
-└────────┬────────────┘    └──────────┬──────────┘
-         │                            │
-         └──────────┬─────────────────┘
-                    │
-         ┌──────────▼──────────┐
-         │   FastAPI Backend   │  :8000
-         │   JWT Auth · RBAC   │
-         └──────────┬──────────┘
-              ┌─────┴─────┐
-              │           │
-    ┌─────────▼──┐  ┌─────▼──────┐
-    │ AI Engine  │  │ Socket.io  │
-    │  :8001     │  │  :3002     │
-    └─────────┬──┘  └────────────┘
-              │
-    ┌─────────▼──────────────┐
-    │  PostgreSQL · Redis    │
-    │  MongoDB · Supabase    │
-    └────────────────────────┘
-```
-
----
 
 ## 🛠️ Tech Stack
 
@@ -237,8 +207,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 ---
 
 <div align="center">
-Built with ❤️ for India · BGI Hackathon 2026 · Team HORCRUX
+Built with ❤️ for India · BGI Hackathon 2026
 </div>
-```
-
-Yeh paste karo aur **Commit changes** click karo. README automatically GitHub pe render ho jaayega with badges, tables, aur code blocks. 🚀
